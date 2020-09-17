@@ -73,7 +73,7 @@ class LinkedList {
       leader.next = temp;
       leader = leader.prev;
     }
-    if (temp !== null) this.head = temp.prev;
+    this.head = temp.prev;
   }
 
   traverseToTheIndex(index) {
@@ -117,9 +117,8 @@ myLinkedList.append(40);
 console.log(myLinkedList.toString());
 myLinkedList.reverse();
 console.log(myLinkedList.toString());
-
-// console.log("Before insert:", myLinkedList.toString(), "\n");
-// myLinkedList.insert(2, 22);
-// console.log("After insert:", myLinkedList.toString(), "\n");
-// console.log("Remove 2 index:", myLinkedList.remove(2));
-// console.log(myLinkedList.toString());
+console.log("Before insert:", myLinkedList.toString(), "\n");
+myLinkedList.insert(2, 22);
+console.log("After insert:", myLinkedList.toString(), "\n");
+console.log("Remove 2 index:", myLinkedList.remove(2));
+console.log(myLinkedList.toString());
