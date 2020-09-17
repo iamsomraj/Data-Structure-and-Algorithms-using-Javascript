@@ -51,6 +51,29 @@ class LinkedList {
     return value;
   }
 
+  reverse() {
+    if (!this.head.next) {
+      return;
+    }
+    let first = this.head;
+    // changing tail
+    this.tail = this.head;
+    let second = this.head.next;
+    while (second) {
+      const temp = second.next;
+      // reversing first and second
+      second.next = first;
+      // shifting first
+      first = second;
+      // shifting second
+      second = temp;
+    }
+    // setting next of new tail null
+    this.head.next = null;
+    // changing the head
+    this.head = first;
+  }
+
   traverseToTheIndex(index) {
     let pointer = this.head;
     let count = 0;
@@ -93,3 +116,5 @@ myLinkedList.insert(2, 22);
 console.log(myLinkedList.toString());
 console.log("Remove 2 index", myLinkedList.remove(2));
 console.log(myLinkedList.toString());
+myLinkedList.reverse();
+console.log("After reverse", myLinkedList.toString());
