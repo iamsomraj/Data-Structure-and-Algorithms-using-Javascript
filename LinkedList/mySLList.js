@@ -12,6 +12,8 @@ class LinkedList {
     this.length = 1;
   }
 
+  // @desc: adding node at end of the list
+  // @comp: O(1) - constant time
   append(value) {
     const newNode = new Node(value);
     this.tail.next = newNode;
@@ -19,6 +21,8 @@ class LinkedList {
     this.length++;
   }
 
+  // @desc: adding node at first of the list
+  // @comp: O(1) - constant time
   prepend(value) {
     const newNode = new Node(value);
     newNode.next = this.head;
@@ -26,6 +30,8 @@ class LinkedList {
     this.length++;
   }
 
+  // @desc: adding node at an index - 0 based index
+  // @comp: O(n) - linear time
   insert(index, value) {
     if (index >= this.length) {
       this.append(value);
@@ -40,6 +46,8 @@ class LinkedList {
     this.length++;
   }
 
+  // @desc: removing node from an index - 0 based index
+  // @comp: O(n) - linear time
   remove(index) {
     if (index <= 0 || index >= this.length) {
       return;
@@ -51,6 +59,8 @@ class LinkedList {
     return value;
   }
 
+  // @desc: reversing the list in place
+  // @comp: O(n) - linear time
   reverse() {
     if (!this.head.next) {
       return;
@@ -74,6 +84,8 @@ class LinkedList {
     this.head = first;
   }
 
+  // @desc: traversing to an index
+  // @comp: O(n) - linear time
   traverseToTheIndex(index) {
     let pointer = this.head;
     let count = 0;
@@ -84,6 +96,8 @@ class LinkedList {
     return pointer;
   }
 
+  // @desc: traversing and displaying the linkedlist
+  // @comp: O(n) - linear time
   toString() {
     const arr = [];
     let pointer = this.head;

@@ -103,3 +103,5 @@ myLinkedList.insert(2, 22);
 console.log("After insert:", myLinkedList.toString(), "\n");
 console.log("Remove 2 index:", myLinkedList.remove(2));
 console.log(myLinkedList.toString());
+myLinkedList.reverse();
+console.log("After reversing", myLinkedList.toString());
