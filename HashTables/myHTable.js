@@ -1,3 +1,11 @@
+class Node {
+  constructor(key, value) {
+    this.key = key;
+    this.value = value;
+    this.next = null;
+  }
+}
+
 class myHashTable {
   constructor(size) {
     this.data = new Array(size);
@@ -18,22 +26,28 @@ class myHashTable {
   // @comp: O(1) - constant time
   set(key, value) {
     let address = this._hash(key);
+    const newNode = new Node(key, value);
     if (this.data[address] === undefined) {
-      this.data[address] = [];
+      this.data[address] = newNode;
+      return;
     }
-    this.data[address].push([key, value]);
+    let leader = this.data[address];
+    while (leader.next !== null) {
+      leader = leader.next;
+    }
+    leader.next = newNode;
   }
 
   // @desc: getting the value from key
   // @comp: O(1) - constant time
   get(key) {
     for (let current of this.data) {
-      if (current !== undefined) {
-        for (let pairs of current) {
-          if (pairs[0] === key) {
-            return pairs[1];
-          }
+      let leader = current;
+      while (leader !== null) {
+        if (leader.key === key) {
+          return leader.value;
         }
+        leader = leader.next;
       }
     }
     return undefined;
@@ -43,11 +57,10 @@ class myHashTable {
   // @comp: O(1) but can be O(n) - linear time - because of collision
   keys() {
     const myKeys = [];
-    for (const current of this.data) {
-      if (current !== undefined) {
-        for (let pairs of current) {
-          myKeys.push(pairs[0]);
-        }
+    for (let current of this.data) {
+      while (current !== null) {
+        myKeys.push(current.key);
+        current = current.next;
       }
     }
     return myKeys;
@@ -57,21 +70,24 @@ class myHashTable {
   // @comp: O(1) but can be O(n) - linear time - because of collision
   values() {
     const myValues = [];
-    for (const current of this.data) {
-      if (current !== undefined) {
-        for (const pairs of current) {
-          myValues.push(pairs[1]);
-        }
+    for (let current of this.data) {
+      while (current !== null) {
+        myValues.push(current.value);
+        current = current.next;
       }
     }
     return myValues;
   }
 }
 
-const hash = new myHashTable(50);
-hash.set("apples", 2000);
-hash.set("oranges", 3000);
-hash.set("mangoes", 8500);
+const hash = new myHashTable(2);
+hash.set("dairymilk", 2000);
+hash.set("kitkat", 3000);
+hash.set("bounty", 8500);
+hash.set("mars", 9500);
+hash.set("eclairs", 9500);
+hash.set("creamfills", 9500);
 console.log(hash);
+console.log(hash.get("mars"));
 console.log(hash.keys());
 console.log(hash.values());
