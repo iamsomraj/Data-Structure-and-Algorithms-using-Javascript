@@ -60,6 +60,22 @@ class LinkedList {
     return value;
   }
 
+  reverse() {
+    if (!this.head.next) {
+      return;
+    }
+    let leader = this.head;
+    this.tail = this.head;
+    let temp = null;
+    while (leader) {
+      temp = leader.prev;
+      leader.prev = leader.next;
+      leader.next = temp;
+      leader = leader.prev;
+    }
+    if (temp !== null) this.head = temp.prev;
+  }
+
   traverseToTheIndex(index) {
     let pointer = this.head;
     let count = 0;
@@ -98,8 +114,12 @@ myLinkedList.prepend(15);
 myLinkedList.append(20);
 myLinkedList.append(30);
 myLinkedList.append(40);
-console.log("Before insert:", myLinkedList.toString(), "\n");
-myLinkedList.insert(2, 22);
-console.log("After insert:", myLinkedList.toString(), "\n");
-console.log("Remove 2 index:", myLinkedList.remove(2));
 console.log(myLinkedList.toString());
+myLinkedList.reverse();
+console.log(myLinkedList.toString());
+
+// console.log("Before insert:", myLinkedList.toString(), "\n");
+// myLinkedList.insert(2, 22);
+// console.log("After insert:", myLinkedList.toString(), "\n");
+// console.log("Remove 2 index:", myLinkedList.remove(2));
+// console.log(myLinkedList.toString());
