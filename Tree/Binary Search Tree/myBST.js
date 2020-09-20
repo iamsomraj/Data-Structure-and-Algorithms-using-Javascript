@@ -66,64 +66,80 @@ class BinarySearchTree {
 		}
 	}
 
-	// finds a node containing min value from a tree
+
+	// removes a node from the binary search tree
 	// compl: log. time in most cases, but in worst, it can be linear
-	min(current) {
-		while (true) {
-			if (!current.left) {
-				return current;
-			} else {
+	remove(value) {
+		if (!this.root) {
+			return false;
+		}
+		let current = this.root;
+		let parentNode = null;
+		while (current) {
+			if (value < current.value) {
+				parentNode = current;
 				current = current.left;
+			} else if (value > current.value) {
+				parentNode = current;
+				current = current.right;
+			} else if (current.value === value) {
+				//We have a match, get to work!
+				//Option 1: No right child:
+				if (current.right === null) {
+					if (parentNode === null) {
+						this.root = current.left;
+					} else {
+						//if parent > current value, make current left child a child of parent
+						if (current.value < parentNode.value) {
+							parentNode.left = current.left;
+							//if parent < current value, make left child a right child of parent
+						} else if (current.value > parentNode.value) {
+							parentNode.right = current.left;
+						}
+					}
+					//Option 2: Right child which doesnt have a left child
+				} else if (current.right.left === null) {
+					current.right.left = current.left;
+					if (parentNode === null) {
+						this.root = current.right;
+					} else {
+						//if parent > current, make right child of the left the parent
+						if (current.value < parentNode.value) {
+							parentNode.left = current.right;
+							//if parent < current, make right child a right child of the parent
+						} else if (current.value > parentNode.value) {
+							parentNode.right = current.right;
+						}
+					}
+					//Option 3: Right child that has a left child
+				} else {
+					//find the Right child's left most child
+					let leftmost = current.right.left;
+					let leftmostParent = current.right;
+					while (leftmost.left !== null) {
+						leftmostParent = leftmost;
+						leftmost = leftmost.left;
+					}
+					//Parent's left subtree is now leftmost's right subtree
+					leftmostParent.left = leftmost.right;
+					leftmost.left = current.left;
+					leftmost.right = current.right;
+					if (parentNode === null) {
+						this.root = leftmost;
+					} else {
+						if (current.value < parentNode.value) {
+							parentNode.left = leftmost;
+						} else if (current.value > parentNode.value) {
+							parentNode.right = leftmost;
+						}
+					}
+				}
+				return true;
 			}
 		}
 	}
 
-	// // removes a node from the binary search tree
-	// // compl: log. time in most cases, but in worst, it can be linear
-	// remove(value) {
-	// 	if (!this.root) {
-	// 		console.log("Binary Search Tree : Empty");
-	// 		return;
-	// 	}
-	// 	let current = this.root;
-	// 	while (true) {
-	// 		if (value < current.value) {
-	// 			if (!current.left) {
-	// 				console.log("Binary Search Tree : Not Found");
-	// 				return;
-	// 			}
-	// 			current = current.left;
-	// 		} else if (value > current.value) {
-	// 			if (!current.right) {
-	// 				console.log("Binary Search Tree : Not Found");
-	// 				return;
-	// 			}
-	// 			current = current.right;
-	// 		} else {
-	// 			console.log("BST Node deleted : ", current.value);
-	// 			if (!current.left && !current.right) {
-	// 				// case 1 : no child
-	// 				return null;
-	// 			} else if (current.left && !current.right) {
-	// 				// case 2: one left child
-	// 				return current.left;
-	// 			} else if (!current.left && current.right) {
-	// 				// case 3: one right child
-	// 				return current.right;
-	// 			} else if (current.left && current.right) {
-	// 				// case 4: two children
-	// 				const minNode = this.min(current.right);
-	// 				current.value = minNode.value;
-	// 				if (minNode.right) {
-	// 					const del = minNode.right.value;
-	// 					current.right = current.right.remove(del);
-	// 				}
-	// 				return current;
-	// 			}
-	// 		}
-	// 	}
-	// }
-
+	
 	printTree() {
 		if (this.root) {
 			console.log(JSON.stringify(this.root));
@@ -135,11 +151,11 @@ class BinarySearchTree {
 
 let tree = new BinarySearchTree();
 tree.insert(10);
-tree.insert(15);
-tree.insert(1);
-tree.insert(20);
-tree.insert(8);
-tree.insert(9);
-tree.insert(12);
-// tree.remove(10);
+// tree.insert(15);
+// tree.insert(1);
+// tree.insert(20);
+// tree.insert(8);
+// tree.insert(9);
+// tree.insert(12);
+tree.remove(10);
 tree.printTree();
