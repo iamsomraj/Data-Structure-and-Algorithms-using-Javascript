@@ -139,7 +139,7 @@ class BinarySearchTree {
 		}
 	}
 
-	
+
 	printTree() {
 		if (this.root) {
 			console.log(JSON.stringify(this.root));
@@ -151,11 +151,11 @@ class BinarySearchTree {
 
 let tree = new BinarySearchTree();
 tree.insert(10);
-// tree.insert(15);
-// tree.insert(1);
-// tree.insert(20);
-// tree.insert(8);
-// tree.insert(9);
-// tree.insert(12);
+tree.insert(15);
+tree.insert(1);
+tree.insert(20);
+tree.insert(8);
+tree.insert(9);
+tree.insert(12);
 tree.remove(10);
 tree.printTree();
