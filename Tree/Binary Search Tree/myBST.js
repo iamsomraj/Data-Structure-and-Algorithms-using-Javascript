@@ -66,15 +66,18 @@ class BinarySearchTree {
 		}
 	}
 
-
 	// removes a node from the binary search tree
 	// compl: log. time in most cases, but in worst, it can be linear
 	remove(value) {
+		// check if empty
 		if (!this.root) {
-			return false;
+			console.log("Binary Search Tree : Empty");
+			return;
 		}
+
 		let current = this.root;
 		let parentNode = null;
+
 		while (current) {
 			if (value < current.value) {
 				parentNode = current;
@@ -82,63 +85,56 @@ class BinarySearchTree {
 			} else if (value > current.value) {
 				parentNode = current;
 				current = current.right;
-			} else if (current.value === value) {
-				//We have a match, get to work!
-				//Option 1: No right child:
+			} else if (value === current.value) {
+				console.log("Binary Search Tree : Node deleted : ", value);
+				// no right child
 				if (current.right === null) {
 					if (parentNode === null) {
 						this.root = current.left;
+					} else if (current.value < parentNode.value) {
+						parentNode.left = current.left;
 					} else {
-						//if parent > current value, make current left child a child of parent
-						if (current.value < parentNode.value) {
-							parentNode.left = current.left;
-							//if parent < current value, make left child a right child of parent
-						} else if (current.value > parentNode.value) {
-							parentNode.right = current.left;
-						}
+						parentNode.right = current.left;
 					}
-					//Option 2: Right child which doesnt have a left child
+					// no right child's left child
 				} else if (current.right.left === null) {
 					current.right.left = current.left;
 					if (parentNode === null) {
 						this.root = current.right;
+					} else if (current.value < parentNode.value) {
+						parentNode.left = current.right;
 					} else {
-						//if parent > current, make right child of the left the parent
-						if (current.value < parentNode.value) {
-							parentNode.left = current.right;
-							//if parent < current, make right child a right child of the parent
-						} else if (current.value > parentNode.value) {
-							parentNode.right = current.right;
-						}
+						parentNode.right = current.right;
 					}
-					//Option 3: Right child that has a left child
+					// have right child's left child
 				} else {
-					//find the Right child's left most child
-					let leftmost = current.right.left;
-					let leftmostParent = current.right;
-					while (leftmost.left !== null) {
-						leftmostParent = leftmost;
-						leftmost = leftmost.left;
+					let leftMost = current.right.left;
+					let letfMostParent = current.right;
+					// find the minimum
+					while (leftMost.left !== null) {
+						letfMostParent = leftMost;
+						leftMost = leftMost.left;
 					}
-					//Parent's left subtree is now leftmost's right subtree
-					leftmostParent.left = leftmost.right;
-					leftmost.left = current.left;
-					leftmost.right = current.right;
+					// parent's left is now leftmost's right
+					letfMostParent.left = leftMost.right;
+					// leftmost's left and right child is now current's left and right
+					leftMost.left = current.left;
+					leftMost.right = current.right;
+
 					if (parentNode === null) {
-						this.root = leftmost;
+						this.root = leftMost;
+					} else if (current.value < parentNode.value) {
+						parentNode.left = leftMost;
 					} else {
-						if (current.value < parentNode.value) {
-							parentNode.left = leftmost;
-						} else if (current.value > parentNode.value) {
-							parentNode.right = leftmost;
-						}
+						parentNode.right = leftMost;
 					}
 				}
 				return true;
 			}
 		}
+		console.log("Binary Search Tree : Deletion Failed");
+		return false;
 	}
-
 
 	printTree() {
 		if (this.root) {
@@ -151,11 +147,18 @@ class BinarySearchTree {
 
 let tree = new BinarySearchTree();
 tree.insert(10);
-tree.insert(15);
-tree.insert(1);
-tree.insert(20);
-tree.insert(8);
+tree.insert(25);
 tree.insert(9);
-tree.insert(12);
-tree.remove(10);
+tree.insert(50);
+tree.insert(20);
+tree.insert(19);
+tree.insert(21);
+tree.insert(90);
+tree.insert(30);
+tree.insert(27);
+tree.insert(40);
+tree.insert(90);
+tree.insert(100);
+tree.insert(70);
+tree.remove(85);
 tree.printTree();
