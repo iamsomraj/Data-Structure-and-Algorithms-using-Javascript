@@ -87,6 +87,8 @@ hash.set("bounty", 8500);
 hash.set("mars", 9500);
 hash.set("eclairs", 9500);
 hash.set("creamfills", 9500);
+// checking for duplicate keys
+hash.set("creamfills",10500);
 console.log(hash);
 console.log(hash.get("mars"));
 console.log(hash.keys());
